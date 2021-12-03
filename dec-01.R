@@ -2020,10 +2020,19 @@ count(depth_change %>% filter(depth_change > 0))
 
 # Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?
 
+# Limited by packages on this machine so let's just brute force with a for loop
 
-roll_sum <- function(){}
+depth <- depth %>% mutate(window_sum_3 = NA)
 
+for (i in 1:1998) {
+   
+   depth$window_sum_3[i] <- sum(depth$V1[i:(i+2)])
+   
+}
 
+tail(depth)
 
-
+depth_3_window_sum <- tibble(diff(depth$window_sum_3))
+#Number of measurements where they are larger than hte one before it
+count(depth_change %>% filter(depth_3_window_sum > 0))
 
